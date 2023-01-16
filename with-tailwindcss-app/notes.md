@@ -1,3 +1,13 @@
+# summary
+
+- to deploy next js app:
+- redirect the output of the build to a separate `.build/` directory, instead of the default `.next/`
+  - add `  distDir: "build",` to `next.config.js`
+  - add `    "build": "rm -rf ./build && NODE_ENV=production next build",` to remove previous build and set node environment vairable for gcp
+- gcloud ignore the `/pages/` and other source code directories
+- gcloud ignore the `.next`
+- add port 8080 for gcp when starting the app `    "start": "next start -p 8080"` in `package.json`
+
 ```shell
 dian@192 node_app % ls
 app.yaml                node_modules            package-lock.json       package.json            server.js
@@ -131,3 +141,58 @@ To view your application in the web browser run:
 
 - same url between deployments
 - `gcloud app logs tail -s default` takes some time to see the logs
+
+# NextJS
+
+- remove all previous node files
+- init nextjs project
+- update app yaml node version to 18
+
+```shell
+dian@Dians-MacBook-Pro-2 with-tailwindcss-app % gcloud app deploy
+Services to deploy:
+
+descriptor:                  [/Users/dian/Documents/basic_projects/node_app/with-tailwindcss-app/app.yaml]
+source:                      [/Users/dian/Documents/basic_projects/node_app/with-tailwindcss-app]
+target project:              [ai-tutor-374705]
+target service:              [default]
+target version:              [20230116t175902]
+target url:                  [https://ai-tutor-374705.de.r.appspot.com]
+target service account:      [App Engine default service account]
+
+
+Do you want to continue (Y/n)?  y
+
+Beginning deployment of service [default]...
+╔════════════════════════════════════════════════════════════╗
+╠═ Uploading 45 files to Google Cloud Storage               ═╣
+╚════════════════════════════════════════════════════════════╝
+File upload done.
+Updating service [default]...done.
+Setting traffic split for service [default]...done.
+Deployed service [default] to [https://ai-tutor-374705.de.r.appspot.com]
+
+You can stream logs from the command line by running:
+  $ gcloud app logs tail -s default
+
+To view your application in the web browser run:
+  $ gcloud app browse
+```
+
+- the app:
+
+```
+Error: Server Error
+The server encountered an error and could not complete your request.
+Please try again in 30 seconds.
+```
+
+- change the build command: `"build": "rm -rf ./build && NODE_ENV=production next build",`
+- update next.config.js: `distDir: "build",`
+- run `yarn build` again
+
+```
+Internal Server Error
+```
+
+- update gcloudignore for `/pages/` and `/.next/`

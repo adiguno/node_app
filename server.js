@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 
 app.get("/", (req, res) => {
+  console.log("got something, logging it");
+  console.log(req);
   res.send("Hello from App Engine!");
 });
 

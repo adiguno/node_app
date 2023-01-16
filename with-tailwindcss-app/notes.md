@@ -94,3 +94,40 @@ You can stream logs from the command line by running:
 To view your application in the web browser run:
   $ gcloud app browse
 ```
+
+- update server.js to do some console logs and update the response message
+
+```shell
+dian@192 node_app % gcloud app deploy
+Services to deploy:
+
+descriptor:                  [/Users/dian/Documents/basic_projects/node_app/app.yaml]
+source:                      [/Users/dian/Documents/basic_projects/node_app]
+target project:              [ai-tutor-374705]
+target service:              [default]
+target version:              [20230116t143743]
+target url:                  [https://ai-tutor-374705.de.r.appspot.com]
+target service account:      [App Engine default service account]
+
+
+Do you want to continue (Y/n)?  y
+
+Beginning deployment of service [default]...
+╔════════════════════════════════════════════════════════════╗
+╠═ Uploading 2 files to Google Cloud Storage                ═╣
+╚════════════════════════════════════════════════════════════╝
+File upload done.
+Updating service [default]...⠶
+Updating service [default]...done.
+Setting traffic split for service [default]...done.
+Deployed service [default] to [https://ai-tutor-374705.de.r.appspot.com]
+
+You can stream logs from the command line by running:
+  $ gcloud app logs tail -s default
+
+To view your application in the web browser run:
+  $ gcloud app browse
+```
+
+- same url between deployments
+- `gcloud app logs tail -s default` takes some time to see the logs

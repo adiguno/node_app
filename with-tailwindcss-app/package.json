@@ -6,11 +6,13 @@
     "start": "next start -p 8080"
   },
   "dependencies": {
+    "eventsource": "^2.0.2",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/eventsource": "^1.1.10",
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",

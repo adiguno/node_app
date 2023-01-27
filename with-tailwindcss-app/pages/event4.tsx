@@ -1,23 +1,16 @@
 import { useEffect, useState } from "react";
 import EventSource from "eventsource";
 
-export const Event3 = () => {
+export const Event4 = () => {
   const [source, setSource] = useState<EventSource | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [data, setData] = useState("");
   let newData = "";
 
-  const handleConnect = () => {
-    // use full url here?
+  const getMessage = () => {
     setSource(new EventSource("http://localhost:3000/api/event3"));
     console.log(source);
     setIsConnected(true);
-  };
-  const handleDisconnect = () => {
-    if (source) {
-      source.close();
-      setIsConnected(false);
-    }
   };
 
   // pulling the setData to here correctly updates the state
@@ -27,26 +20,22 @@ export const Event3 = () => {
 
   useEffect(() => {
     if (source) {
-      // the final setData is ran every connect/disconnect
-      // aka, this is only taking the previous state
-      // not taking the prev sse data as prev state
       source.onopen = (event: MessageEvent) => {
         console.log("event source open");
       };
       source.onmessage = (event: MessageEvent) => {
         console.log("event.data:");
-        // console.log(event.data);
-        // console.log(data);
-        // console.log(newData);
 
         // work:
         newData = newData + event.data;
         updateData(newData);
-
-        // dont work:
-        // updateData(event.data);
-        // setData(`${data} ${event.data}`);
-        // setData(`${data} ${newData}`);
+        // console.log(typeof event.data); // string
+        // ends the connection when reached the end of the messages
+        if (event.data.includes("asdf")) {
+          console.log("end connection here");
+          setIsConnected(false);
+          source.close();
+        }
       };
       source.onerror = (event) => {
         console.log(event);
@@ -58,12 +47,12 @@ export const Event3 = () => {
     }
   }, [source]);
 
-  console.log("data:");
+  console.log("event 4 data:");
   console.log(data);
   return (
     <>
       <div className="w-screen h-10 bg-slate-500">{data}</div>
-      <button className="bg-blue-500" onClick={isConnected ? handleDisconnect : handleConnect}>
+      <button className="bg-blue-500" onClick={getMessage}>
         {isConnected ? "Disconnect" : "Connect"}
       </button>
       {isConnected ? <div>is currently Connected</div> : <div>it Disconnected</div>}

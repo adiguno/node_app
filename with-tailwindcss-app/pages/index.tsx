@@ -36,7 +36,7 @@ export function Board(props: { xIsNext: boolean; squares: string[]; onPlay: Func
   }
 
   const winner = calculateWinner(props.squares);
-  console.log("feels like this is run every state change");
+  // console.log("feels like this is run every state change");
   let status;
   if (winner) {
     status = "Winner: " + winner;
@@ -84,8 +84,9 @@ export function Game() {
     setCurrentMove(nextMove);
   }
 
-  const moves = history.map((_, move) => {
+  const moves = history.map((i, move) => {
     let description;
+    let isCurrentMove = move === currentMove;
     if (move > 0) {
       description = "Go to move #" + move;
     } else {
@@ -93,9 +94,13 @@ export function Game() {
     }
     return (
       <li key={move}>
-        <button className="border-2" onClick={() => jumpTo(move)}>
-          {description}
-        </button>
+        {isCurrentMove ? (
+          <p>You are at move #{move}</p>
+        ) : (
+          <button className="border-2" onClick={() => jumpTo(move)}>
+            {description}
+          </button>
+        )}
       </li>
     );
   });

@@ -73,18 +73,7 @@ const Home: NextPage = () => {
           <div>
             <h2 className="text-red-900">Your generated bios</h2>
           </div>
-          <div className="">
-            {generatedBios
-              .substring(generatedBios.indexOf("1") + 3)
-              .split("2.")
-              .map((generatedBio: any) => {
-                return (
-                  <div className="bg-slate-600" key={generatedBio}>
-                    <p>{generatedBio}</p>
-                  </div>
-                );
-              })}
-          </div>
+          <div className="">{generatedBios}</div>
         </div>
       </main>
     </div>

@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AiTransactions {
+  id     Int      @id @default(autoincrement()) @db.UnsignedInt
+  userId Int
+  prompt String   @db.Text
+  answer String   @db.Text
+  token  Int
+  date   DateTime
+}
+
+model AiUsers {
+  id         Int    @id @default(autoincrement()) @db.UnsignedInt
+  username   String @db.VarChar(50)
+  licenseKey String @unique @db.VarChar(50)
+  tokens     Int
+}
+
+model TestIdeaPotentialCustomers {
+  id    Int    @id @default(autoincrement()) @db.UnsignedInt
+  name  String @db.VarChar(50)
+  email String @unique(map: "email") @db.VarChar(50)
+  idea  String @db.VarChar(50)
+}

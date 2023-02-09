@@ -8,14 +8,32 @@ export const config = {
   runtime: "edge",
 };
 
-const handler = async (req: Request): Promise<Response> => {
-  // const { prompt } = req.body as {
-  //   prompt?: string;
-  // };
+import { PrismaClient } from "@prisma/client";
 
-  const { prompt } = (await req.json()) as {
+let prisma: PrismaClient;
+
+if (process.env.NODE_ENV === "production") {
+  prisma = new PrismaClient();
+} else {
+  let globalWithPrisma = global as typeof globalThis & {
+    prisma: PrismaClient;
+  };
+  if (!globalWithPrisma.prisma) {
+    globalWithPrisma.prisma = new PrismaClient();
+  }
+  prisma = globalWithPrisma.prisma;
+}
+
+// edge is not a standard nodejs environment
+// this only works with `runtime: edge`
+const handler = async (req: Request): Promise<Response> => {
+  const { prompt } = req.body as {
     prompt?: string;
   };
+
+  // const { prompt } = (await req.json()) as {
+  //   prompt?: string;
+  // };
   console.log(`---got prompt---`);
   console.log(prompt);
 
